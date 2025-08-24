@@ -27,7 +27,7 @@ export const registerUser=async(req,res)=>{
         sameSite:process.env.NODE_ENV==="production" ? "none" :"strict",
         maxAge: 7*24*60*60*1000,
     });
-    res.json({
+    res.status(201).json({
         message:"User registered successfully",
         success:true,
         user:{
@@ -37,7 +37,7 @@ export const registerUser=async(req,res)=>{
     });
   } catch(error){
     console.log(error);
-    res.status(500).json({message:"All fields are required"});
+    res.status(500).json({message:"Internal server error"});
   }
 };
 // login user:/api/user/login
@@ -64,7 +64,7 @@ export const loginUser=async(req,res)=>{
         sameSite:process.env.NODE_ENV==="production" ? "none" :"strict",
         maxAge: 7*24*60*60*1000,
     });
-     res.json({
+     res.status(200).json({
         message:"logged in successfully",
         success:true,
         user:{
@@ -88,7 +88,7 @@ export const logoutUser=async(req,res)=>{
             sameSite:process.env.NODE_ENV==="production" ? "none" : "Strict",
 
         });
-       res.json({message:"User logged out successfully",success:true});
+     return res.status(200).json({message:"User logged out successfully",success:true});
 
     } catch (error) {
         console.log(error);
@@ -99,11 +99,14 @@ export const logoutUser=async(req,res)=>{
 export const isAuthUser=async(req,res)=>{
     try {
        const userId=req.user;
-       if(!userId){
-        return res.status(401).json({message:"Unauthorized",success:false})}
-        const user=await User.findById(userId).select("-password");
+       const user=await User.findById(userId).select("-password");
+       console.log("user",user);
+       if(!user){
+        return res.status(404).json({message:"user not found",success:false});
+    }
 
-        res.json({
+
+        res.status(200).json({
            success:true,
            user,
         });

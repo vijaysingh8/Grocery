@@ -40,9 +40,22 @@ const AppContextProvider=({children})=>{
                 toast.error(data.message);
             }
         } catch (error) {
-            toast.error(error.message);
-        }
+  
+            // toast.error(error.message);
+            if (error.response?.status === 401) {
+      // user not logged in (ignore or set user=null)
+          toast.error("login for continue");
+      setUser(null);
+    } else {
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
+           
+         
+        }
+    };
+    
+
+
     // fetch all products data
     const fetchProducts=async()=>{
         try {
@@ -109,6 +122,11 @@ const AppContextProvider=({children})=>{
           }
     };
     useEffect(()=>{
+        fetchProducts();
+        fetchSeller();
+        fetchUser();
+    },[]);
+    useEffect(()=>{
         const updateCart=async()=>{
             try {
                 const {data}=await axios.post("/api/cart/update",{cartItems});
@@ -123,11 +141,7 @@ const AppContextProvider=({children})=>{
             updateCart();
         }
     },[cartItems]);
-    useEffect(()=>{
-        fetchProducts();
-        fetchSeller();
-        fetchUser();
-    },[]);
+    
     const value={navigate,user,setUser,isSeller,setIsSeller,showUserLogin,setShowUserLogin,products,addToCart,updateCartItem,cartCount
         ,totalCartAmount,removeFromCart,cartItems,searchQuery,setSearchQuery,axios,fetchProducts,setCartItems
     };
