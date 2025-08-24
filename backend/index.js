@@ -14,7 +14,7 @@ import { connectCloudinary } from './config/cloudinary.js';
 const app=express();
 connectDB();
 connectCloudinary();
-const allowedOrigins=["http://localhost:5173"];
+const allowedOrigins=["https://grocery-b2p3.vercel.app"];
 
 app.use(express.json());
 app.use(cors({origin:allowedOrigins,credentials:true}));
