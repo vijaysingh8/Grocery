@@ -1,0 +1,10 @@
+[33m263866e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: pull --rebase origin main (finish): returning to refs/heads/main
+[33m263866e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{1}: pull --rebase origin main (pick): new changes
+[33m971b8ba[m HEAD@{2}: pull --rebase origin main (start): checkout 971b8baad20281571de4d5b9c9ce9b33eef3b3a9
+[33ma414a7a[m HEAD@{3}: commit: new changes
+[33mf78e694[m HEAD@{4}: rebase (finish): returning to refs/heads/main
+[33mf78e694[m HEAD@{5}: commit: first commit
+[33me319ff1[m HEAD@{6}: pull --rebase origin main (start): checkout e319ff113289034c5cfaf33b579f6218fcaf5221
+[33m90ce857[m HEAD@{7}: commit: first commit
+[33m6d9c6a4[m HEAD@{8}: commit (initial): first-commit
+
