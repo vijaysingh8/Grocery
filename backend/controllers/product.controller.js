@@ -2,30 +2,61 @@ import Product from "../models/product.model.js";
 
 import fs from 'fs';
 // addproudct:/api/product/add-product
-export const addProduct=async(req,res)=>{
-    try {
-        const {name,description,price,offerPrice,category}=req.body;
-        const image=req.files?.map((file)=>file.filename);
-        if(!name || !price || !offerPrice || !description || !category || !image || image.length===0){
-            return res.status(400).json({
-                success:false,
-                message:"All fields including images are required",
-            });
-        }
-        await Product.create({
-            name,
-            description,
-            price,
-            offerPrice,
-            category,
-            image,
-        });
-        res.status(201).json({message:"Product added successfully",success:true});
-    } catch (error) {
-        res.status(500).json({message:"Server error",error:error.message})
+// export const addProduct=async(req,res)=>{
+//     try {
+//         const {name,description,price,offerPrice,category}=req.body;
+//         const image=req.files?.map((file)=>file.filename);
+//         if(!name || !price || !offerPrice || !description || !category || !image || image.length===0){
+//             return res.status(400).json({
+//                 success:false,
+//                 message:"All fields including images are required",
+//             });
+//         }
+//         await Product.create({
+//             name,
+//             description,
+//             price,
+//             offerPrice,
+//             category,
+//             image,
+//         });
+//         res.status(201).json({message:"Product added successfully",success:true});
+//     } catch (error) {
+//         res.status(500).json({message:"Server error",error:error.message})
+//     }
+
+// }
+export const addProduct = async (req, res) => {
+  try {
+    const { name, description, price, offerPrice, category } = req.body;
+
+    const image = req.files?.map((file) => ({
+      url: file.path,         // Cloudinary URL
+      public_id: file.filename // Cloudinary public_id
+    }));
+
+    if (!name || !price || !offerPrice || !description || !category || !image || image.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields including images are required",
+      });
     }
 
-}
+    await Product.create({
+      name,
+      description,
+      price,
+      offerPrice,
+      category,
+      image,
+    });
+
+    res.status(201).json({ message: "Product added successfully", success: true });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 // get products :/api/product/get
 export const getProducts=async(req,res)=>{
     try {

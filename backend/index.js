@@ -14,12 +14,28 @@ import { connectCloudinary } from './config/cloudinary.js';
 const app=express();
 connectDB();
 connectCloudinary();
-const allowedOrigins=["https://grocery-b2p3.vercel.app"];
+// const allowedOrigins=["https://grocery-b2p3.vercel.app"];
 
 app.use(express.json());
-app.use(cors({origin:allowedOrigins,credentials:true}));
+// app.use(cors({origin:allowedOrigins,credentials:true}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (
+        !origin ||
+        origin.endsWith(".vercel.app") ||
+        origin === "http://localhost:5173"
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(cookieParser());
-app.use("/images",express.static("uploads"));
+// app.use("/images",express.static("uploads"));
 app.use("/api/user",userRoutes);
 app.use("/api/seller",sellerRoutes);
 app.use("/api/product",productRoutes);
